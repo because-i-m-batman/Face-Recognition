@@ -11,9 +11,12 @@ class Face_detection:
 	def __init__(self):
 		print("[INFO] Initialized Face Detection")
 
-		self.net = cv2.dnn.readNetFromDarknet('cfg/yolov3-face.cfg', 'model-weights/yolov3-wider_16000.weights')
+		self.net = cv2.dnn.readNetFromDarknet('path to yolov3 cfg file', 'yolov3 weights files')
 		self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+		# for gpu usage change cv2.dnn.DNN_TARGET_CPU to cv2.dnn.DNN_TARGET_OPENCL
 		self.net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+		
+		
 
 	def predict(self, img, min_score=0.4):
 		"""
