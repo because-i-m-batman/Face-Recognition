@@ -17,5 +17,5 @@
 
 5. Run face_recognition.py,it will create a video of recognized faces
 -> To run this file,download yolov3 weights and cfg file ,this face_recognition.py file use yolov3_face_detection.py file for face_detection because its faster.
-    download weights file from here :https://drive.google.com/file/d/1zU_n5CwnGfYgFNLQ1JZlsl-rHjPV-kmp/view
-    download cfg file from here : https://github.com/sthanhng/yoloface/tree/master/cfg
+-> download weights file from here :https://drive.google.com/file/d/1zU_n5CwnGfYgFNLQ1JZlsl-rHjPV-kmp/view
+-> download cfg file from here : https://github.com/sthanhng/yoloface/tree/master/cfg
