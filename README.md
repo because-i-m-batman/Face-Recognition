@@ -1,6 +1,7 @@
 # Face-Recognition
 
-#Usage
+# Usage
+
 1. Collect database
 -> Arrange the Images in given way:
     1.Person1 (Folder Contains Images of Person1)
