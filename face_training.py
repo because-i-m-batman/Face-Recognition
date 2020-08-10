@@ -47,6 +47,6 @@ model.add(Dense(3,activation = 'softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 print(model.summary())
 
-checkpoint = ModelCheckpoint('Augmented_data_model.hdf5', monitor='accuracy', verbose=1, save_best_only=True, mode='max')
+checkpoint = ModelCheckpoint('model.hdf5', monitor='accuracy', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
 model.fit(train_x, new_train_y, epochs=15, batch_size=4,callbacks = callbacks_list)
