@@ -82,7 +82,7 @@ def load_dataset(directory):
 	return asarray(X), asarray(y)
 
 # load train dataset
-trainX, trainy = load_dataset('Path to Image directory')
+trainX, trainy = load_dataset('Path to Image directory Provide path like this,at the ends there must be a forward slash(C:/Users/Harsh/Desktop/openvinotesting/Augmented1/)')
 print(trainX.shape, trainy.shape)
 # load test dataset
 
