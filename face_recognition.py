@@ -1,19 +1,31 @@
 import cv2
 from keras.models import load_model
 from numpy import expand_dims
-from face_embedding import get_embedding
 from numpy import asarray
 from yolov3_face_detection import Face_detection
 from tqdm import tqdm
 from keras.preprocessing import image
+import operator
+import itertools
+
+def get_embedding(model, face_pixels):
+    # scale pixel values
+    face_pixels = face_pixels.astype('float32')
+    mean, std = face_pixels.mean(), face_pixels.std()
+    face_pixels = (face_pixels - mean) / std
+
+    samples = expand_dims(face_pixels, axis=0)
+
+    yhat = model.predict(samples)
+    return yhat[0]
 
 c = Face_detection()
 
-model_classification = load_model('Path to trained face keras model created using face_training.py file')
+model_classification = load_model('path to trained face model using face_training.py file')
 model_embedding = load_model('path to facenet keras model')
 
 #Video Reading
-cap = cv2.VideoCapture('Path to your video file')
+cap = cv2.VideoCapture('path to input video file')
 
 output_path = 'out_video1.mp4'
 total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -35,15 +47,21 @@ while cap.isOpened():
 	orig_image = cv2.cvtColor(orig_image, cv2.COLOR_BGR2RGB)
 
 
-	try:
-		# get faces using yolov3 face detection
-		output,img = c.predict(orig_image,0.6)
 
-		for out in output:
-			x1, y1, width, height = out[0]
-			image = orig_image[y1:height,x1:width]
+		# get faces using yolov3 face detection
+	output,img = c.predict(orig_image,0.7)
+
+
+	for out in output:
+		x1, y1, width, height = out[0]
+
+		try:
+			image = orig_image[y1:height+5,x1:width+2]
+
 
 			image = cv2.resize(image,(160,160))
+			# image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+
 			#create embeddings of faces obtain
 			embedding = get_embedding(model_embedding,image)
 			embedding = expand_dims(embedding, axis=0)
@@ -70,8 +88,8 @@ while cap.isOpened():
 				person = "Unknown" 
 
 
-			cv2.rectangle(orig_image, (xmin, ymin), (xmax, ymax), (255, 255, 0), 2)
-			cv2.putText(orig_image,person,(xmin,ymin),cv2.FONT_HERSHEY_SIMPLEX,0.6,(0, 255, 255), 1)
+			cv2.rectangle(orig_image, (x1, y1), (width+2,height+5), (255, 255, 0), 2)
+			cv2.putText(orig_image,person,(x1,y1),cv2.FONT_HERSHEY_SIMPLEX,0.6,(0, 255, 255), 1)
 
 
 
@@ -79,19 +97,19 @@ while cap.isOpened():
 
 
 
-	except:
-		print('No face detected')
-	orig_image = cv2.cvtColor(orig_image, cv2.COLOR_BGR2RGB)
-    count_frames += 1
-    pbar.update(1)
-    cv2.imshow("Frame", orig_image)
+		except:
+			print('No face detected')
+	orig_image = cv2.cvtColor(orig_image, cv2.COLOR_RGB2BGR)
+	count_frames += 1
+	pbar.update(1)
+	cv2.imshow("Frame", orig_image)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 
-    video.write(orig_image)
+	video.write(orig_image)
 	while count_frames < total_frames:
-	    count_frames += 1
-	    pbar.update(1)
+		count_frames += 1
+		pbar.update(1)
 pbar.close()
 cap.release()
 video.release()
