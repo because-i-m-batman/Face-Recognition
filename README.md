@@ -27,3 +27,5 @@
     -> download weights file from here :https://drive.google.com/file/d/1zU_n5CwnGfYgFNLQ1JZlsl-rHjPV-kmp/view
 
     -> download cfg file from here : https://github.com/sthanhng/yoloface/tree/master/cfg
+    
+6. Output Video file: https://drive.google.com/file/d/1cf9nBBoXfQByGlWYj1JkZF1IShigENw9/view?usp=sharing
